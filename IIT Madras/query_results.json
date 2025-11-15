@@ -1,21 +1,11 @@
 [
     {
-        "Problem": "Insufficient speed control on minor road approaches",
-        "Fix": "Installation of speed breaker",
-        "Type": "Traffic Calming",
-        "Possible Interventions": [
-            "Install speed breaker 5 m to 6 m away from STOP line"
-        ],
-        "Reasoning": "Relatively insignificant minor road approaches shall be provided with a speed breaker to enhance safety and control vehicle speed as per clause 9.2.11 of IRC:SP:87-2019."
-    },
-    {
-        "Problem": "Poor visibility at minor road intersections",
-        "Fix": "Installation of Stop Marking and Stop Sign",
+        "Problem": "Relatively insignificant minor road approaches shall be provided with a speed breaker at 5 m to 6 m away from STOP line.",
+        "Fix": "Install speed breakers",
         "Type": "Traffic Control",
         "Possible Interventions": [
-            "Install Stop Marking and Stop Sign at intersecting point with major road",
-            "Implement Give Way Marking and Give Way Sign if visibility is clear"
+            "Create speed breakers 5 to 6 meters from the STOP line"
         ],
-        "Reasoning": "On minor roads intersecting with major roads, use Stop Marking and Stop Sign where visibility is restricted, or crash rates are high, to ensure driver awareness and safety, as per clause 6.3."
+        "Reasoning": "This intervention is necessary to ensure that vehicles reduce speed before reaching the STOP line, enhancing safety at intersections."
     }
 ]
