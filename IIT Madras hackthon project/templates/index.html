@@ -57,23 +57,31 @@
     }
 
     .logo {
-      width:56px;
-      height:56px;
-      border-radius:14px;
-      background:linear-gradient(135deg,var(--accent-start),var(--accent-end));
-      box-shadow: 0 6px 20px rgba(16,185,129,0.12), inset 0 -6px 18px rgba(0,0,0,0.18);
+      width:96px;
+      height:96px;
+      border-radius:18px;
+      background:transparent;
+      box-shadow: none;
       display:flex;
       align-items:center;
       justify-content:center;
       color:#012;
       font-weight:700;
-      font-size:18px;
+      font-size:20px;
+      overflow:hidden;
+      transition: transform .25s ease;
+    }
+    
+    .logo img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
 
     h1{
       margin:0;
-      font-size:20px;
-      font-weight:700;
+      font-size:32px;
+      font-weight:800;
       line-height:1;
     }
 
@@ -96,36 +104,56 @@
     .toggle:hover{ background: rgba(255,255,255,0.06); }
 
     .panel {
-      margin-top:20px;
+      margin-top:24px;
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border:1px solid rgba(255,255,255,0.04);
-      border-radius:18px;
-      padding:18px;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+      border-radius:20px;
+      padding:28px;
+      box-shadow: 0 10px 36px rgba(2,6,23,0.45);
       backdrop-filter: blur(6px);
       position:relative;
     }
 
-    label{ font-size:13px; color:var(--muted); display:block; margin-bottom:8px; }
+    /* Temporary visible marker to confirm template changes */
+    .debug-updated {
+      display:inline-block;
+      background: #10b981;
+      color: #062024;
+      padding:6px 10px;
+      border-radius:8px;
+      font-weight:800;
+      margin-bottom:12px;
+      box-shadow: 0 6px 18px rgba(16,185,129,0.12);
+    }
+
+    label{ font-size:16px; color:#dff7f5; display:block; margin-bottom:10px; font-weight:800; }
 
     textarea.input {
-      width:100%;
-      min-height:64px;
-      border-radius:12px;
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.06);
+      width:1000px;
+      min-height:50px;
+      border-radius:14px;
+      background: rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.12);
       color:inherit;
-      padding:12px;
-      font-size:15px;
+      padding:18px 22px 18px 18px;
+      font-size:16px;
       resize:vertical;
       outline:none;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.25);
+      transition: box-shadow .18s, border-color .18s, transform .18s;
+    }
+
+    textarea.input:focus {
+      border-color: var(--accent-start);
+      box-shadow: 0 12px 36px rgba(6,182,212,0.12);
+      transform: translateY(-2px);
     }
 
     .actions {
       display:flex;
-      gap:12px;
+      gap:14px;
       justify-content:flex-end;
-      margin-top:10px;
+      margin-top:16px;
     }
 
     .btn {
@@ -196,21 +224,64 @@
     .light {
       --bg-1: #e6f2f1;
       --bg-2: #f4fbfe;
-      color:#0b1720;
-      --muted:#4b5563;
+      color: #000;
+      --muted: #333;
       --card-bg: rgba(0,0,0,0.02);
       --glass: rgba(0,0,0,0.03);
     }
     .light .panel, .light .card, .light .suggestion {
       background: var(--light-card);
-      color: #071013;
-      border:1px solid rgba(2,6,23,0.04);
+      color: #000;
+      border: 1px solid rgba(2,6,23,0.04);
       box-shadow: 0 6px 20px rgba(3,7,18,0.04);
+    }
+    .light .input {
+      color: #000;
+      background: transparent;
+    }
+    .light .input::placeholder {
+      color: #999;
+    }
+    .light label {
+      color: #000;
+    }
+    .light .btn {
+      color: #000;
+    }
+    .light .compact-card {
+      color: #000;
+    }
+    .light .modal-content {
+      color: #000;
+    }
+    .light .section-title {
+      color: #000;
+    }
+    .light .timestamp {
+      color: #666;
+    }
+    .light .prompt-text {
+      color: #000;
+    }
+    .light .card {
+      color: #000;
+    }
+    .light .modal-results .card {
+      color: #000;
+    }
+    /* Ensure compact card text is black in light theme (override earlier rules) */
+    .light .compact-card .prompt-text {
+      color: #000 !important;
+    }
+    .light .compact-card .timestamp {
+      color: #666 !important;
     }
 
     @media (max-width:720px){
       body{ padding:18px }
-      .logo{ width:48px;height:48px }
+      .logo{ width:64px;height:64px }
+      h1 { font-size:18px; }
+      .compact-card .prompt-text { font-size:14px; }
     }
 
     /* Fade animations */
@@ -222,6 +293,31 @@
     .separator-fade.show, .card-fade.show {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Robot flying animation */
+    @keyframes robotFly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        z-index: 999;
+      }
+      50% {
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) scale(1.4);
+        z-index: 999;
+      }
+      100% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        z-index: 999;
+      }
+    }
+
+    .robot-flying {
+      position: fixed !important;
+      animation: robotFly 5s ease-in-out forwards;
+      z-index: 9999 !important;
     }
 
     /* Loading overlay */
@@ -248,6 +344,92 @@
       border-left-color:#10b981;
     }
 
+    /* Modal Dialog */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 36, 0.85);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal.open {
+      display: flex;
+    }
+    .modal-content {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(2, 6, 23, 0.6);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #dff7f5;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .18s;
+    }
+    .modal-close:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* Compact card - shows only prompt and timestamp */
+    .compact-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+      color: inherit;
+      cursor: pointer;
+      transition: transform .18s, box-shadow .18s;
+    }
+    .compact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    .compact-card .prompt-text {
+      font-weight: 600;
+      color: #dff7f5;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .compact-card .timestamp {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Full results in modal */
+    .modal-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .modal-results .card {
+      margin: 0;
+    }
+
   </style>
 </head>
 
@@ -255,7 +437,7 @@
   <div class="wrap" id="app">
     <header>
       <div class="brand">
-        <div class="logo">RS</div>
+        <div class="logo"><img src="/robot.png" alt="RoadSafe" /></div>
         <div>
           <h1>RoadSafe — Prompt Studio</h1>
           <p class="lead">Generate interventions & explanations to improve road safety</p>
@@ -313,9 +495,22 @@
     function setTheme(isLight){
       light = !!isLight;
       document.body.classList.toggle('light', light);
-      themeBtn.textContent = light ? '☀️ Light' : '🌙 Dark';
+      themeBtn.textContent = light ? '🌙 Dark' : '☀️ Light';
     }
-    themeBtn.addEventListener('click', () => setTheme(!light));
+    themeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const clickElement = document.createElement('div');
+      clickElement.style.position = 'fixed';
+      clickElement.style.left = e.clientX + 'px';
+      clickElement.style.top = e.clientY + 'px';
+      clickElement.style.width = '1px';
+      clickElement.style.height = '1px';
+      clickElement.style.pointerEvents = 'none';
+      document.body.appendChild(clickElement);
+      animateRobotToElement(clickElement, () => setTheme(!light));
+      setTimeout(() => clickElement.remove(), 5000);
+    }, true);
     setTheme(false);
 
     function showSuggestions(query){
@@ -333,22 +528,28 @@
       }
       suggestionsContainer.style.display='grid';
       suggestionsContainer.innerHTML = filtered.map(s => `<div class="suggestion">${escapeHtml(s)}</div>`).join('');
-      suggestionsContainer.querySelectorAll('.suggestion').forEach(el => {
-        el.addEventListener('click', ()=>{ 
-          promptEl.value = el.textContent; 
-          suggestionsContainer.style.display='none'; 
-          triggerGenerate(); 
-        });
-      });
     }
 
     promptEl.addEventListener('input', (e) => showSuggestions(e.target.value));
 
-    clearBtn.addEventListener('click', () => {
-      promptEl.value = '';
-      suggestionsContainer.style.display='none';
-      promptEl.focus();
-    });
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const clickElement = document.createElement('div');
+      clickElement.style.position = 'fixed';
+      clickElement.style.left = e.clientX + 'px';
+      clickElement.style.top = e.clientY + 'px';
+      clickElement.style.width = '1px';
+      clickElement.style.height = '1px';
+      clickElement.style.pointerEvents = 'none';
+      document.body.appendChild(clickElement);
+      animateRobotToElement(clickElement, () => {
+        promptEl.value = '';
+        suggestionsContainer.style.display='none';
+        promptEl.focus();
+      });
+      setTimeout(() => clickElement.remove(), 5000);
+    }, true);
 
     function setLoading(v){
       genBtn.disabled = v;
@@ -378,6 +579,8 @@
           showErrorCard('Server error', data.error);
         } else {
           renderOutputCard(q, data.output);
+          promptEl.value = '';
+          suggestionsContainer.style.display='none';
         }
       } catch(err){
         showErrorCard('Network error', 'Could not connect to backend. Is Flask running on http://127.0.0.1:5000?');
@@ -387,55 +590,141 @@
       }
     }
 
-    genBtn.addEventListener('click', triggerGenerate);
+    function animateRobotToElement(targetElement, onMidpoint = null) {
+      const logoElement = document.querySelector('.logo');
+
+      if (!logoElement || !targetElement) return;
+
+      // Get positions (viewport coordinates)
+      const logoRect = logoElement.getBoundingClientRect();
+      const btnRect = targetElement.getBoundingClientRect();
+
+      // Store original position for restoration
+      const originalPos = logoElement.style.position;
+      const originalLeft = logoElement.style.left;
+      const originalTop = logoElement.style.top;
+
+      // Calculate desired translation to center the logo on the target
+      let tx = btnRect.left - logoRect.left + (btnRect.width - logoRect.width) / 2;
+      let ty = btnRect.top - logoRect.top + (btnRect.height - logoRect.height) / 2;
+
+      // Ensure the robot stays within the viewport (10px padding)
+      const padding = 10;
+      const desiredLeft = logoRect.left + tx;
+      const minLeft = padding;
+      const maxLeft = window.innerWidth - padding - logoRect.width;
+      const clampedLeft = Math.min(maxLeft, Math.max(minLeft, desiredLeft));
+      tx = clampedLeft - logoRect.left;
+
+      const desiredTop = logoRect.top + ty;
+      const minTop = padding;
+      const maxTop = window.innerHeight - padding - logoRect.height;
+      const clampedTop = Math.min(maxTop, Math.max(minTop, desiredTop));
+      ty = clampedTop - logoRect.top;
+
+      // Apply fixed positioning and animation
+      logoElement.style.position = 'fixed';
+      logoElement.style.left = logoRect.left + 'px';
+      logoElement.style.top = logoRect.top + 'px';
+      logoElement.style.setProperty('--tx', tx + 'px');
+      logoElement.style.setProperty('--ty', ty + 'px');
+      logoElement.classList.add('robot-flying');
+
+      // Trigger callback at midpoint (2.5s)
+      setTimeout(() => {
+        if (onMidpoint) onMidpoint();
+      }, 2500);
+
+      // Remove animation and restore position after it completes
+      setTimeout(() => {
+        logoElement.classList.remove('robot-flying');
+        logoElement.style.position = originalPos;
+        logoElement.style.left = originalLeft;
+        logoElement.style.top = originalTop;
+      }, 5000);
+    }
+
+    genBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const clickElement = document.createElement('div');
+      clickElement.style.position = 'fixed';
+      clickElement.style.left = e.clientX + 'px';
+      clickElement.style.top = e.clientY + 'px';
+      clickElement.style.width = '1px';
+      clickElement.style.height = '1px';
+      clickElement.style.pointerEvents = 'none';
+      document.body.appendChild(clickElement);
+      animateRobotToElement(clickElement, triggerGenerate);
+      setTimeout(() => clickElement.remove(), 5000);
+    }, true);
 
     function renderOutputCard(promptText, dataArray) {
       if (!Array.isArray(dataArray)) dataArray = [dataArray];
 
-      const separatorWrapper = document.createElement('div');
-      separatorWrapper.style.display = 'grid';
-      separatorWrapper.style.gridTemplateColumns = 'repeat(auto-fit, minmax(280px, 1fr))';
-      separatorWrapper.style.gap = '16px';
-      separatorWrapper.style.margin = '16px 0';
+      const timestamp = new Date().toLocaleString();
+      const cardId = 'card-' + Date.now();
+      const hasResults = dataArray && dataArray.length > 0 && dataArray.some(item => item && Object.keys(item).length > 0);
 
-      const separator = document.createElement('div');
-      separator.className = 'separator-fade';
-      separator.style.gridColumn = '1 / -1';
-      separator.style.textAlign = 'center';
-      separator.style.fontSize = '12px';
-      separator.style.color = 'var(--muted)';
-      separator.style.borderBottom = '1px solid rgba(255,255,255,0.2)';
-      separator.style.lineHeight = '1.5';
-      separator.style.paddingBottom = '6px';
-      separator.textContent = `Results generated on ${new Date().toLocaleString()}`;
+      // Create compact card
+      const compactCard = document.createElement('div');
+      compactCard.className = 'compact-card card-fade';
+      compactCard.style.cursor = 'pointer';
+      compactCard.innerHTML = `
+        <div class="prompt-text">📌 ${escapeHtml(promptText)}</div>
+        <div class="timestamp">Generated: ${timestamp}</div>
+      `;
 
-      separatorWrapper.appendChild(separator);
-      outputsContainer.insertBefore(separatorWrapper, outputsContainer.firstChild);
+      // Create modal for full results
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.id = cardId + '-modal';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <button class="modal-close">✕</button>
+          <div class="modal-header" style="margin-bottom: 20px;">
+            <h3 style="margin: 0 0 8px 0; color: #dff7f5;">Results for: ${escapeHtml(promptText)}</h3>
+            <div style="font-size: 12px; color: var(--muted);">Generated: ${timestamp}</div>
+          </div>
+          <div class="modal-results">
+            ${hasResults ? dataArray.map((item, idx) => `
+              <div class="card">
+                <div>
+                  <div class="section-title">Result ${idx + 1}</div>
+                  ${item.Problem ? `<div><strong>Problem:</strong> ${escapeHtml(item.Problem)}</div>` : ''}
+                  ${item.Fix ? `<div><strong>Fix:</strong> ${escapeHtml(item.Fix)}</div>` : ''}
+                  ${item.Type ? `<div><strong>Type:</strong> ${escapeHtml(item.Type)}</div>` : ''}
+                  ${item['Possible Interventions'] ? `<div><strong>Possible Interventions:</strong> ${escapeHtml(item['Possible Interventions'].join(', '))}</div>` : ''}
+                  ${item.Reasoning ? `<div><strong>Reasoning:</strong> ${escapeHtml(item.Reasoning)}</div>` : ''}
+                </div>
+              </div>
+            `).join('') : `
+              <div style="text-align: center; padding: 40px 20px; color: var(--muted); font-size: 16px;">
+                <div style="font-size: 40px; margin-bottom: 12px;">⚠️</div>
+                <div>No relevant data found</div>
+              </div>
+            `}
+          </div>
+        </div>
+      `;
 
-      requestAnimationFrame(() => {
-        separator.classList.add('show');
+      // Close modal on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('open');
+        }
       });
 
-      dataArray.reverse().forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'card card-fade';
-        card.innerHTML = `
-          <div>
-            <div class="section-title">Output</div>
-            ${item.Problem ? `<div><strong>Problem:</strong> ${escapeHtml(item.Problem)}</div>` : ''}
-            ${item.Fix ? `<div><strong>Fix:</strong> ${escapeHtml(item.Fix)}</div>` : ''}
-            ${item.Type ? `<div><strong>Type:</strong> ${escapeHtml(item.Type)}</div>` : ''}
-            ${item['Possible Interventions'] ? `<div><strong>Possible Interventions:</strong> ${escapeHtml(item['Possible Interventions'].join(', '))}</div>` : ''}
-            ${item.Reasoning ? `<div><strong>Reasoning:</strong> ${escapeHtml(item.Reasoning)}</div>` : ''}
-          </div>
-          <div class="meta">
-            <div>Prompt: ${escapeHtml(promptText)}</div>
-          </div>
-        `;
-        outputsContainer.insertBefore(card, separatorWrapper.nextSibling);
-        setTimeout(() => {
-          card.classList.add('show');
-        }, index * 150);
+      // Add to DOM
+      outputsContainer.insertBefore(compactCard, outputsContainer.firstChild);
+      document.body.appendChild(modal);
+
+      // Store modal reference on card for global handler
+      compactCard.dataset.modalId = cardId + '-modal';
+
+      // Fade in animation
+      requestAnimationFrame(() => {
+        compactCard.classList.add('show');
       });
     }
 
@@ -455,8 +744,74 @@
     }
 
     document.addEventListener('click', (e) => {
+      // Hide suggestions if clicking outside
       if(!suggestionsContainer.contains(e.target) && e.target !== promptEl){
         suggestionsContainer.style.display='none';
+      }
+
+      // Animate robot to interactive elements (but not on textarea, buttons, or logo itself)
+      const isInteractive = e.target.closest('.suggestion, .compact-card, .modal-close');
+      const isExcluded = e.target.closest('textarea, .logo, .btn, input, .toggle') || e.target === promptEl;
+      
+      if (isInteractive && !isExcluded) {
+        // Prevent immediate action
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Create a virtual element at the click point for animation
+        const clickElement = document.createElement('div');
+        clickElement.style.position = 'fixed';
+        clickElement.style.left = e.clientX + 'px';
+        clickElement.style.top = e.clientY + 'px';
+        clickElement.style.width = '1px';
+        clickElement.style.height = '1px';
+        clickElement.style.pointerEvents = 'none';
+        document.body.appendChild(clickElement);
+
+        // Define deferred action
+        const executeAction = () => {
+          if (e.target.closest('.suggestion')) {
+            const suggestionText = e.target.textContent;
+            promptEl.value = suggestionText;
+            suggestionsContainer.style.display = 'none';
+          } else if (e.target.closest('.compact-card')) {
+            const card = e.target.closest('.compact-card');
+            const modalId = card.dataset.modalId;
+            if (modalId) {
+              const modal = document.getElementById(modalId);
+              if (modal) modal.classList.add('open');
+            }
+          } else if (e.target.closest('.modal-close')) {
+            const modal = e.target.closest('.modal');
+            if (modal) modal.classList.remove('open');
+          }
+        };
+
+        // Animate robot to suggestion element, then fill the text
+        if (e.target.closest('.suggestion')) {
+          const suggestionElement = e.target.closest('.suggestion');
+          if (suggestionElement) {
+            const suggestionRect = suggestionElement.getBoundingClientRect();
+            clickElement.style.left = (suggestionRect.left + suggestionRect.width / 2) + 'px';
+            clickElement.style.top = (suggestionRect.top + suggestionRect.height / 2) + 'px';
+          }
+          // Deferred action: fill textarea when robot reaches suggestion
+          const suggestionText = e.target.textContent;
+          animateRobotToElement(clickElement, () => {
+            promptEl.value = suggestionText;
+            suggestionsContainer.style.display = 'none';
+          });
+          setTimeout(() => clickElement.remove(), 5000);
+          return;
+        }
+
+        // Animate robot to click point with deferred action
+        animateRobotToElement(clickElement, executeAction);
+
+        // Clean up after animation
+        setTimeout(() => {
+          clickElement.remove();
+        }, 5000);
       }
     });
   </script>
