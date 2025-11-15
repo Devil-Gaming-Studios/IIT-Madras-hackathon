@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, jsonify
 import threading
 from main_engine import setup_collection, process_query
 import json, ast, re
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=os.path.dirname(os.path.abspath(__file__)), static_url_path='')
 from flask_cors import CORS
 CORS(app)
 
