@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Safety Intervention Advisor - GPT Powered</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0056b3; /* A strong blue for safety */
+            --secondary-color: #f8f9fa; /* Light grey for backgrounds */
+            --accent-color: #28a745; /* Green for success/actions */
+            --text-color: #333;
+            --light-text-color: #666;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: white;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h2 {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            font-size: 1.1em;
+            color: var(--light-text-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        .section {
+            background-color: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .section h3 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-group button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: 100%;
+        }
+
+        .form-group button:hover {
+            background-color: #004085; /* Darker blue on hover */
+        }
+
+        #results {
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+        }
+
+        #results h4 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .intervention-card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px var(--shadow-color);
+        }
+
+        .intervention-card h5 {
+            color: var(--accent-color);
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .intervention-card p {
+            margin-bottom: 10px;
+        }
+
+        .intervention-card ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            color: var(--light-text-color);
+        }
+
+        .intervention-card strong {
+            color: var(--text-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.9em;
+            border-top: 1px solid #004085;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Road Safety Intervention Advisor</h1>
+            <p>Leveraging GPT for Smarter Road Safety Solutions</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h2>Identify Optimal Road Safety Interventions with AI</h2>
+            <p>Our advanced GPT-powered tool analyzes your specific road safety challenges, cross-referencing them with a global database of best practices and guidelines, to recommend the most effective interventions.</p>
+            <a href="#intervention-tool" class="cta-button">Get Recommendations Now</a>
+        </section>
+
+        <section id="intervention-tool" class="section">
+            <h3>Describe Your Road Safety Problem</h3>
+            <p style="text-align: center; color: var(--light-text-color);">Provide details about the road type, identified safety issues, and environmental conditions.</p>
+            <div class="form-group">
+                <label for="safety-description">Road Safety Scenario Description:</label>
+                <textarea id="safety-description" placeholder="e.g., 'Rural two-lane road with high pedestrian traffic near a school. Frequent rear-end collisions and speeding issues. Poor visibility during dawn/dusk due to trees.'"></textarea>
+            </div>
+            <div class="form-group">
+                <button id="get-recommendations">Get Intervention Recommendations</button>
+            </div>
+
+            <div id="results">
+                <h4>Suggested Interventions</h4>
+                <div id="intervention-list">
+                    <p style="text-align: center; color: var(--light-text-color);">Your recommendations will appear here after you submit your query.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h3>How It Works</h3>
+            <p style="text-align: center; color: var(--light-text-color);">Our tool combines cutting-edge AI with comprehensive road safety knowledge.</p>
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 30px;">
+                <div style="flex-basis: 30%; text-align: center; margin-bottom: 20px;">
+                    <h4>1. Describe Your Issue</h4>
+                    <p>Input detailed information about your road section and its safety challenges.</p>
+                </div>
+                <div style="flex-basis: 30%; text-align: center; margin-bottom: 20px;">
+                    <h4>2. AI Analysis</h4>
+                    <p>Our GPT model processes your input, querying a vast database of interventions.</p>
+                </div>
+                <div style="flex-basis: 30%; text-align: center; margin-bottom: 20px;">
+                    <h4>3. Tailored Recommendations</h4>
+                    <p>Receive specific, data-backed intervention suggestions with reasoning.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h3>About Our Database</h3>
+            <p style="text-align: center; color: var(--light-text-color);">Curated from global best practices to ensure reliable and effective solutions.</p>
+            <ul>
+                <li><strong>Global Best Practices:</strong> Incorporating successful interventions from around the world.</li>
+                <li><strong>Road Safety Audit Reports:</strong> Learning from real-world evaluations and findings.</li>
+                <li><strong>Established Guidelines:</strong> Adhering to national and international safety standards.</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Road Safety Intervention Advisor. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('get-recommendations').addEventListener('click', async () => {
+            const description = document.getElementById('safety-description').value;
+            const interventionList = document.getElementById('intervention-list');
+
+            if (!description.trim()) {
+                interventionList.innerHTML = '<p style="color: red; text-align: center;">Please provide a description of the road safety scenario.</p>';
+                return;
+            }
+
+            interventionList.innerHTML = '<p style="text-align: center;">Loading recommendations... http://googleusercontent.com/image_generation_content/0

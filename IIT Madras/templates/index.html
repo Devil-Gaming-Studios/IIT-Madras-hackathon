@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RoadSafe — Prompt Studio</title>
+
+  <style>
+    /* ---- Base ---- */
+    :root{
+      --bg-1: #0f1724;
+      --bg-2: #020617;
+      --card-bg: rgba(255,255,255,0.04);
+      --muted: #9aa4b2;
+      --accent-start: #06b6d4;
+      --accent-end: #10b981;
+      --glass: rgba(255,255,255,0.03);
+      --light-bg: #f4f7fb;
+      --light-card: #ffffff;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      -webkit-font-smoothing:antialiased;
+      position:relative;
+    }
+
+    body {
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(6,182,212,0.06), transparent 8%),
+                  linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color: #e6eef6;
+      padding:36px;
+      transition: background .28s, color .28s;
+      display:flex;
+      justify-content:center;
+    }
+
+    .wrap {
+      width:100%;
+      max-width:1100px;
+      position:relative;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .brand {
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+
+    .logo {
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      background:transparent;
+      box-shadow: none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#012;
+      font-weight:700;
+      font-size:18px;
+      overflow:hidden;
+    }
+    
+    .logo img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    h1{
+      margin:0;
+      font-size:20px;
+      font-weight:700;
+      line-height:1;
+    }
+
+    p.lead { margin:0; color:var(--muted); font-size:13px; }
+
+    .controls { display:flex; gap:10px; align-items:center; }
+
+    .toggle {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding:8px;
+      border-radius:10px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      transition: background .18s;
+    }
+    .toggle:hover{ background: rgba(255,255,255,0.06); }
+
+    .panel {
+      margin-top:24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:20px;
+      padding:28px;
+      box-shadow: 0 10px 36px rgba(2,6,23,0.45);
+      backdrop-filter: blur(6px);
+      position:relative;
+    }
+
+    /* Temporary visible marker to confirm template changes */
+    .debug-updated {
+      display:inline-block;
+      background: #10b981;
+      color: #062024;
+      padding:6px 10px;
+      border-radius:8px;
+      font-weight:800;
+      margin-bottom:12px;
+      box-shadow: 0 6px 18px rgba(16,185,129,0.12);
+    }
+
+    label{ font-size:16px; color:#dff7f5; display:block; margin-bottom:10px; font-weight:800; }
+
+    textarea.input {
+      width:100%;
+      min-height:220px;
+      border-radius:14px;
+      background: rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.12);
+      color:inherit;
+      padding:18px 22px 18px 18px;
+      font-size:16px;
+      resize:vertical;
+      outline:none;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.25);
+      transition: box-shadow .18s, border-color .18s, transform .18s;
+    }
+
+    textarea.input:focus {
+      border-color: var(--accent-start);
+      box-shadow: 0 12px 36px rgba(6,182,212,0.12);
+      transform: translateY(-2px);
+    }
+
+    .actions {
+      display:flex;
+      gap:14px;
+      justify-content:flex-end;
+      margin-top:16px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg,var(--accent-start),var(--accent-end));
+      color:#062024;
+      border:none;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow: 0 8px 20px rgba(6,182,212,0.12);
+    }
+    .btn.secondary {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
+      color:var(--muted);
+      font-weight:600;
+      box-shadow:none;
+    }
+
+    .suggestions {
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:10px;
+    }
+
+    .suggestion {
+      padding:10px 12px;
+      border-radius:10px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.02);
+      cursor:pointer;
+      color:var(--muted);
+      font-size:14px;
+      transition: transform .12s, background .12s;
+    }
+    .suggestion:hover{ transform:translateY(-4px); background: rgba(255,255,255,0.035); color:#dff7f5; }
+
+    .outputs {
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap:16px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:14px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+      color:inherit;
+      line-height:1.5;
+      white-space:pre-wrap;
+    }
+
+    .card h4 { margin:6px 0 6px; font-size:13px; color:#9ee9e1; font-weight:700; }
+    .card .section-title { font-size:13px; color:var(--muted); margin:8px 0 6px; font-weight:700; }
+
+    .meta { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:12px; margin-top:10px; }
+
+    .spinner {
+      width:18px;height:18px;border-radius:50%;border:3px solid rgba(255,255,255,0.08);border-left-color:var(--accent-start); animation:spin 1s linear infinite;
+    }
+    @keyframes spin{ from {transform:rotate(0)} to {transform:rotate(360deg)} }
+
+    .light {
+      --bg-1: #e6f2f1;
+      --bg-2: #f4fbfe;
+      color:#0b1720;
+      --muted:#4b5563;
+      --card-bg: rgba(0,0,0,0.02);
+      --glass: rgba(0,0,0,0.03);
+    }
+    .light .panel, .light .card, .light .suggestion {
+      background: var(--light-card);
+      color: #071013;
+      border:1px solid rgba(2,6,23,0.04);
+      box-shadow: 0 6px 20px rgba(3,7,18,0.04);
+    }
+
+    @media (max-width:720px){
+      body{ padding:18px }
+      .logo{ width:48px;height:48px }
+    }
+
+    /* Fade animations */
+    .separator-fade, .card-fade {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .separator-fade.show, .card-fade.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Robot flying animation */
+    @keyframes robotFly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        z-index: 999;
+      }
+      50% {
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) scale(1.4);
+        z-index: 999;
+      }
+      100% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        z-index: 999;
+      }
+    }
+
+    .robot-flying {
+      position: fixed !important;
+      animation: robotFly 5s ease-in-out forwards;
+    }
+
+    /* Loading overlay */
+    #loadingOverlay {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(15,23,36,0.75);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+      z-index:1000;
+      display:none;
+      color:#fff;
+      font-size:16px;
+      backdrop-filter: blur(3px);
+    }
+
+    #loadingOverlay .spinner {
+      width:36px; height:36px;
+      border-width:4px;
+      margin-bottom:12px;
+      border-left-color:#10b981;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="app">
+    <header>
+      <div class="brand">
+        <div class="logo"><img src="/robot.png" alt="RoadSafe" /></div>
+        <div>
+          <h1>RoadSafe — Prompt Studio</h1>
+          <p class="lead">Generate interventions & explanations to improve road safety</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div id="themeBtn" class="toggle" title="Toggle theme">🌙 Dark</div>
+      </div>
+    </header>
+
+    <div class="panel" style="margin-top:20px;">
+      <label for="prompt">Enter a </label>
+      <textarea id="prompt" class="input" placeholder="e.g. Frequent accidents at the junction near the market..."></textarea>
+
+      <div class="actions">
+        <button id="clearBtn" class="btn secondary">Clear</button>
+        <button id="genBtn" class="btn">Generate</button>
+      </div>
+
+      <div id="suggestions" class="suggestions" aria-hidden="true" style="display:none; margin-top:14px;"></div>
+    </div>
+
+    <div id="outputs" class="outputs"></div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div>Generating results...</div>
+  </div>
+
+  <script>
+    const BACKEND_URL = "http://127.0.0.1:5000/query";
+    const promptEl = document.getElementById('prompt');
+    const genBtn = document.getElementById('genBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const outputsContainer = document.getElementById('outputs');
+    const suggestionsContainer = document.getElementById('suggestions');
+    const themeBtn = document.getElementById('themeBtn');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    let suggestionList = [
+      "Traffic congestion near school zone",
+      "Frequent accidents at intersection",
+      "Speeding vehicles in residential area",
+      "Poor street lighting at night",
+      "Pedestrians crossing without signals",
+      "Bad road surface causing skids",
+      "Motorcyclists not wearing helmets",
+      "Vehicles overtaking on blind curves"
+    ];
+
+    let light = false;
+    function setTheme(isLight){
+      light = !!isLight;
+      document.body.classList.toggle('light', light);
+      themeBtn.textContent = light ? '🌙 Dark' : '☀️ Light';
+    }
+    themeBtn.addEventListener('click', () => setTheme(!light));
+    setTheme(false);
+
+    function showSuggestions(query){
+      if(!query || !query.trim()){
+        suggestionsContainer.style.display='none';
+        suggestionsContainer.innerHTML='';
+        return;
+      }
+      const q = query.toLowerCase();
+      const filtered = suggestionList.filter(s => s.toLowerCase().includes(q)).slice(0,8);
+      if(filtered.length === 0){
+        suggestionsContainer.style.display='none';
+        suggestionsContainer.innerHTML='';
+        return;
+      }
+      suggestionsContainer.style.display='grid';
+      suggestionsContainer.innerHTML = filtered.map(s => `<div class="suggestion">${escapeHtml(s)}</div>`).join('');
+      suggestionsContainer.querySelectorAll('.suggestion').forEach(el => {
+        el.addEventListener('click', ()=>{ 
+          promptEl.value = el.textContent; 
+          suggestionsContainer.style.display='none'; 
+          triggerGenerate(); 
+        });
+      });
+    }
+
+    promptEl.addEventListener('input', (e) => showSuggestions(e.target.value));
+
+    clearBtn.addEventListener('click', () => {
+      promptEl.value = '';
+      suggestionsContainer.style.display='none';
+      promptEl.focus();
+    });
+
+    function setLoading(v){
+      genBtn.disabled = v;
+      loadingOverlay.style.display = v ? 'flex' : 'none';
+      if(v){
+        genBtn.innerHTML = '<span class="spinner"></span> Generating';
+      } else {
+        genBtn.innerHTML = 'Generate';
+      }
+    }
+
+    async function triggerGenerate(){
+      const q = promptEl.value.trim();
+      if(!q) return;
+
+      setLoading(true);
+
+      try {
+        const res = await fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: q })
+        });
+
+        const data = await res.json();
+        if(data.error){
+          showErrorCard('Server error', data.error);
+        } else {
+          renderOutputCard(q, data.output);
+        }
+      } catch(err){
+        showErrorCard('Network error', 'Could not connect to backend. Is Flask running on http://127.0.0.1:5000?');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function animateRobotToButton() {
+      const logoElement = document.querySelector('.logo');
+      const genBtnElement = document.getElementById('genBtn');
+      
+      if (!logoElement || !genBtnElement) return;
+      
+      // Get positions
+      const logoRect = logoElement.getBoundingClientRect();
+      const btnRect = genBtnElement.getBoundingClientRect();
+      
+      // Store original position for restoration
+      const originalPos = logoElement.style.position;
+      const originalLeft = logoElement.style.left;
+      const originalTop = logoElement.style.top;
+      
+      // Calculate translation
+      const tx = btnRect.left - logoRect.left + (btnRect.width - logoRect.width) / 2;
+      const ty = btnRect.top - logoRect.top + (btnRect.height - logoRect.height) / 2;
+      
+      // Apply fixed positioning and animation
+      logoElement.style.position = 'fixed';
+      logoElement.style.left = logoRect.left + 'px';
+      logoElement.style.top = logoRect.top + 'px';
+      logoElement.style.setProperty('--tx', tx + 'px');
+      logoElement.style.setProperty('--ty', ty + 'px');
+      logoElement.classList.add('robot-flying');
+      
+      // Trigger generate at midpoint (2.5s)
+      setTimeout(() => {
+        triggerGenerate();
+      }, 2500);
+      
+      // Remove animation and restore position after it completes
+      setTimeout(() => {
+        logoElement.classList.remove('robot-flying');
+        logoElement.style.position = originalPos;
+        logoElement.style.left = originalLeft;
+        logoElement.style.top = originalTop;
+      }, 5000);
+    }
+
+    genBtn.addEventListener('click', animateRobotToButton);
+
+    function renderOutputCard(promptText, dataArray) {
+      if (!Array.isArray(dataArray)) dataArray = [dataArray];
+
+      const separatorWrapper = document.createElement('div');
+      separatorWrapper.style.display = 'grid';
+      separatorWrapper.style.gridTemplateColumns = 'repeat(auto-fit, minmax(280px, 1fr))';
+      separatorWrapper.style.gap = '16px';
+      separatorWrapper.style.margin = '16px 0';
+
+      const separator = document.createElement('div');
+      separator.className = 'separator-fade';
+      separator.style.gridColumn = '1 / -1';
+      separator.style.textAlign = 'center';
+      separator.style.fontSize = '12px';
+      separator.style.color = 'var(--muted)';
+      separator.style.borderBottom = '1px solid rgba(255,255,255,0.2)';
+      separator.style.lineHeight = '1.5';
+      separator.style.paddingBottom = '6px';
+      separator.textContent = `Results generated on ${new Date().toLocaleString()}`;
+
+      separatorWrapper.appendChild(separator);
+      outputsContainer.insertBefore(separatorWrapper, outputsContainer.firstChild);
+
+      requestAnimationFrame(() => {
+        separator.classList.add('show');
+      });
+
+      dataArray.reverse().forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card card-fade';
+        card.innerHTML = `
+          <div>
+            <div class="section-title">Output</div>
+            ${item.Problem ? `<div><strong>Problem:</strong> ${escapeHtml(item.Problem)}</div>` : ''}
+            ${item.Fix ? `<div><strong>Fix:</strong> ${escapeHtml(item.Fix)}</div>` : ''}
+            ${item.Type ? `<div><strong>Type:</strong> ${escapeHtml(item.Type)}</div>` : ''}
+            ${item['Possible Interventions'] ? `<div><strong>Possible Interventions:</strong> ${escapeHtml(item['Possible Interventions'].join(', '))}</div>` : ''}
+            ${item.Reasoning ? `<div><strong>Reasoning:</strong> ${escapeHtml(item.Reasoning)}</div>` : ''}
+          </div>
+          <div class="meta">
+            <div>Prompt: ${escapeHtml(promptText)}</div>
+          </div>
+        `;
+        outputsContainer.insertBefore(card, separatorWrapper.nextSibling);
+        setTimeout(() => {
+          card.classList.add('show');
+        }, index * 150);
+      });
+    }
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"'`=\/]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'})[s]);
+    }
+
+    function showErrorCard(title, message){
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="section-title">${escapeHtml(title)}</div>
+        <div style="color:var(--muted)">${escapeHtml(message)}</div>
+        <div class="meta"><div></div><div>${new Date().toLocaleString()}</div></div>
+      `;
+      outputsContainer.appendChild(card);
+    }
+
+    document.addEventListener('click', (e) => {
+      if(!suggestionsContainer.contains(e.target) && e.target !== promptEl){
+        suggestionsContainer.style.display='none';
+      }
+    });
+  </script>
+</body>
+</html>
