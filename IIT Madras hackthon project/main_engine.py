@@ -5,7 +5,7 @@ import os
 import pickle
 import json
 
-num_of_examples = 100
+num_of_examples = 1
 embedding_model = "qwen/qwen3-embedding-8b"
 processing_model = "gpt-4o-mini"
 
