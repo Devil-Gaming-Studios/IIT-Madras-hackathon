@@ -1,0 +1,23 @@
+[
+    {
+        "Problem": "Need for Rumble Strips",
+        "Fix": "Installation of Rumble Strips",
+        "Type": "Traffic Calming",
+        "Possible Interventions": [
+            "Provide rumble strips 10-20 m before zebra crossings on Arterial Roads",
+            "Provide rumble strips 10-20 m before zebra crossings on Collector Roads",
+            "Provide rumble strips 10-20 m before zebra crossings in High Pedestrian Activity Zones"
+        ],
+        "Reasoning": "Rumble strips enhance vehicle awareness and reduce speeds before critical pedestrian crossing areas."
+    },
+    {
+        "Problem": "Need for Stop Marking and Stop Sign",
+        "Fix": "Installation of Stop Marking and Stop Sign",
+        "Type": "Control Device",
+        "Possible Interventions": [
+            "Install Stop Marking and Stop Sign on minor roads at intersection points with major roads with restricted visibility",
+            "Install Stop Marking and Stop Sign on minor roads at intersection points with high crash rates"
+        ],
+        "Reasoning": "Stop Markings and Stop Signs increase driver awareness and compliance at intersections where visibility and alignment are concerns."
+    }
+]
